@@ -341,7 +341,7 @@
   <main>
     <div style="text-align: center;">
       <h1>Dramnyen Notations</h1>
-         <p>Application created by Thupten Chakrishar aka vajradog<br>
+         <p>Application created by <a href="https://chakrishar.com">Thupten Chakrishar aka vajradog</a><br>
         Sounds recorded by Tenzin Norbu (Tenor)</p>
     </div>
     
