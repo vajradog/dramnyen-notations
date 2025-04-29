@@ -218,11 +218,13 @@
       if (!audioContext) return;
       
       const file = fileName || `${getNoteNameByNumber(noteNumber)}.wav`;
+      const basePath = window.location.pathname.includes('/dramnyen-notations') ? '/dramnyen-notations' : '';
       
       try {
-        const response = await fetch(`/assets/audio/${file}`);
+        const response = await fetch(`${basePath}/assets/audio/${file}`);
         const arrayBuffer = await response.arrayBuffer();
         audioBuffers[`note${noteNumber}`] = await audioContext.decodeAudioData(arrayBuffer);
+        console.log(`Successfully loaded audio: ${basePath}/assets/audio/${file}`);
         return true;
       } catch (error) {
         console.error(`Error loading ${file}:`, error);

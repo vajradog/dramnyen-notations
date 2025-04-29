@@ -43,9 +43,14 @@ export function getNoteNameByNumber(number) {
       
       const buffers = {};
       
+      // Get the correct base path for the deployment environment
+      const appBasePath = typeof window !== 'undefined' && window.location.pathname.includes('/dramnyen-notations') 
+        ? '/dramnyen-notations' 
+        : '';
+      
       for (const note of noteNames) {
         try {
-          const path = `/assets/audio/${note.file}`;
+          const path = `${appBasePath}/assets/audio/${note.file}`;
           console.log(`Utils loading audio from: ${path}`);
           const response = await fetch(path);
           
@@ -55,6 +60,16 @@ export function getNoteNameByNumber(number) {
             console.log(`Utils successfully loaded: ${path}`);
           } else {
             console.error(`Utils failed to load ${path}: ${response.status} ${response.statusText}`);
+            
+            // Fallback to try without base path if the first attempt failed
+            const fallbackPath = `/assets/audio/${note.file}`;
+            const fallbackResponse = await fetch(fallbackPath);
+            
+            if (fallbackResponse.ok) {
+              const fallbackArrayBuffer = await fallbackResponse.arrayBuffer();
+              buffers[`note${note.digit}`] = await audioContext.decodeAudioData(fallbackArrayBuffer);
+              console.log(`Utils successfully loaded fallback: ${fallbackPath}`);
+            }
           }
         } catch (error) {
           console.error(`Error loading ${note.file} in utils:`, error);
