@@ -1,15 +1,21 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static'; // Changed from adapter-auto to adapter-static
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
-		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
-		adapter: adapter(),
+		// Using static adapter for GitHub Pages
+		adapter: adapter({
+			// Output directory for the build
+			pages: 'build',
+			assets: 'build',
+			fallback: null,
+			precompress: false
+		}),
 		
-		// Optional: If you need to use a different base path for static assets
+		// Set the base path to your repository name for GitHub Pages
+		// Replace 'your-repo-name' with your actual repository name
 		paths: {
-			base: '',
+			base: process.env.NODE_ENV === 'production' ? '/dramnyen-notations' : '',
 			assets: ''
 		}
 	}
