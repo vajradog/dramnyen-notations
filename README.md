@@ -97,6 +97,6 @@ npm run deploy
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-
+- Project developed by Thupten Chakrishar aka vajradog
+- Dramnyen sounds by former TIPA Artist Tenzin Norbu (Tenor)
 - Thanks to the Tibetan dramnyen community for inspiration
-- Audio samples not included in this repository
