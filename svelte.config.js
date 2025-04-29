@@ -8,7 +8,7 @@ const config = {
 			// Output directory for the build
 			pages: 'build',
 			assets: 'build',
-			fallback: 'index.html'
+			fallback: 'index.html',
 			precompress: false
 		}),
 		
