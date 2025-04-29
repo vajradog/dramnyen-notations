@@ -290,18 +290,12 @@
           { digit: 8, file: 'do.wav' } // High do is the same as low do
         ];
         
-        // Get the base path based on deployment environment
-        const appBasePath = window.location.pathname.includes('/dramnyen-notations') ? '/dramnyen-notations' : '';
-        
+        // Hard-code paths for GitHub Pages
         // Possible base paths to try
         const basePaths = [
-          `${appBasePath}/assets/audio/`,
-          `${appBasePath}/audio/`,
+          '/dramnyen-notations/assets/audio/',
           '/assets/audio/',
-          './assets/audio/',
-          '/audio/',
-          './audio/',
-          '/'
+          '/dramnyen-notations/audio/'
         ];
         
         // Try to load audio files

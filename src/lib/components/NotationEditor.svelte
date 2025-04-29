@@ -218,14 +218,30 @@
       if (!audioContext) return;
       
       const file = fileName || `${getNoteNameByNumber(noteNumber)}.wav`;
-      const basePath = window.location.pathname.includes('/dramnyen-notations') ? '/dramnyen-notations' : '';
+      // Hard-code the GitHub Pages path
+      const githubPath = '/dramnyen-notations/assets/audio/' + file;
+      const localPath = '/assets/audio/' + file;
       
       try {
-        const response = await fetch(`${basePath}/assets/audio/${file}`);
-        const arrayBuffer = await response.arrayBuffer();
-        audioBuffers[`note${noteNumber}`] = await audioContext.decodeAudioData(arrayBuffer);
-        console.log(`Successfully loaded audio: ${basePath}/assets/audio/${file}`);
-        return true;
+        // Try GitHub Pages path first
+        console.log(`Trying to load from GitHub Pages path: ${githubPath}`);
+        let response = await fetch(githubPath);
+        
+        // If that fails, try local path
+        if (!response.ok) {
+          console.log(`GitHub path failed, trying local path: ${localPath}`);
+          response = await fetch(localPath);
+        }
+        
+        if (response.ok) {
+          const arrayBuffer = await response.arrayBuffer();
+          audioBuffers[`note${noteNumber}`] = await audioContext.decodeAudioData(arrayBuffer);
+          console.log(`Successfully loaded audio for note ${noteNumber}`);
+          return true;
+        } else {
+          console.error(`All paths failed for note ${noteNumber}`);
+          return false;
+        }
       } catch (error) {
         console.error(`Error loading ${file}:`, error);
         return false;

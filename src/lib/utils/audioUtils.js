@@ -43,33 +43,29 @@ export function getNoteNameByNumber(number) {
       
       const buffers = {};
       
-      // Get the correct base path for the deployment environment
-      const appBasePath = typeof window !== 'undefined' && window.location.pathname.includes('/dramnyen-notations') 
-        ? '/dramnyen-notations' 
-        : '';
+      // Hard-code the basePath to /dramnyen-notations for GitHub Pages
+      const appBasePath = '/dramnyen-notations';
       
       for (const note of noteNames) {
         try {
+          // Try the GitHub Pages path first
           const path = `${appBasePath}/assets/audio/${note.file}`;
           console.log(`Utils loading audio from: ${path}`);
-          const response = await fetch(path);
+          let response = await fetch(path);
+          
+          if (!response.ok) {
+            // If that fails, try without the base path (for local dev)
+            const localPath = `/assets/audio/${note.file}`;
+            console.log(`Trying local path: ${localPath}`);
+            response = await fetch(localPath);
+          }
           
           if (response.ok) {
             const arrayBuffer = await response.arrayBuffer();
             buffers[`note${note.digit}`] = await audioContext.decodeAudioData(arrayBuffer);
-            console.log(`Utils successfully loaded: ${path}`);
+            console.log(`Utils successfully loaded audio for note ${note.digit}`);
           } else {
-            console.error(`Utils failed to load ${path}: ${response.status} ${response.statusText}`);
-            
-            // Fallback to try without base path if the first attempt failed
-            const fallbackPath = `/assets/audio/${note.file}`;
-            const fallbackResponse = await fetch(fallbackPath);
-            
-            if (fallbackResponse.ok) {
-              const fallbackArrayBuffer = await fallbackResponse.arrayBuffer();
-              buffers[`note${note.digit}`] = await audioContext.decodeAudioData(fallbackArrayBuffer);
-              console.log(`Utils successfully loaded fallback: ${fallbackPath}`);
-            }
+            console.error(`Failed to load audio for note ${note.digit} from any path`);
           }
         } catch (error) {
           console.error(`Error loading ${note.file} in utils:`, error);
