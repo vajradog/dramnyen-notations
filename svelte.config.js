@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static'; // Changed from adapter-auto to adapter-static
+import adapter from '@sveltejs/adapter-static'; // Changed from adapter-auto
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
