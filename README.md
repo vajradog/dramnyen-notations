@@ -1,7 +1,6 @@
 # Dramnyen Notations
 
-A web application for writing and playing Tibetan dramnyen musical notation.
-
+A web application for writing and playing Tibetan dramnyen musical notation by Thupten Chakrishar and Dramnyen notes by Tenzin Norbu. For more information on the project visit - [Chakrishar](https://chakrishar.com)
 ## Features
 
 - Text editor that accepts digits 1-8 (representing Do-Re-Mi-Fa-So-La-Ti-Do)
